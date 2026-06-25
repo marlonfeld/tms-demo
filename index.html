@@ -1,0 +1,1992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Quote</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      color: #333;
+      background: #e8e8e8;
+      line-height: 1.4;
+    }
+
+    /* Top Navigation */
+    .top-nav {
+      background: linear-gradient(to bottom, #4a7c9b, #3a6a87);
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+      height: 28px;
+      border-bottom: 1px solid #2d5a73;
+    }
+
+    .top-nav-item {
+      color: #fff;
+      text-decoration: none;
+      padding: 4px 12px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .top-nav-item:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    .top-nav-item.home {
+      padding: 4px 8px;
+    }
+
+    .top-nav-item svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .top-nav-right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .top-nav-right .search-icon {
+      color: #fff;
+      opacity: 0.8;
+    }
+
+    /* Sub Navigation */
+    .sub-nav {
+      background: linear-gradient(to bottom, #5a9aba, #4a8aaa);
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+      height: 26px;
+      border-bottom: 1px solid #3a7a9a;
+    }
+
+    .sub-nav-item {
+      color: #fff;
+      text-decoration: none;
+      padding: 4px 14px;
+      font-size: 12px;
+    }
+
+    .sub-nav-item:hover,
+    .sub-nav-item.active {
+      background: rgba(255,255,255,0.15);
+    }
+
+    /* Toolbar */
+    .toolbar {
+      background: #f0f0f0;
+      border-bottom: 1px solid #ccc;
+      padding: 4px 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .toolbar-btn {
+      background: none;
+      border: none;
+      padding: 4px;
+      cursor: pointer;
+      color: #555;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .toolbar-btn:hover {
+      background: #ddd;
+    }
+
+    .toolbar-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Main Content */
+    .main-content {
+      padding: 8px;
+      max-width: 1200px;
+    }
+
+    /* Section Headers */
+    .section-header {
+      background: linear-gradient(to bottom, #fff, #d4e8f5);
+      border: 1px solid #b8d4e8;
+      border-bottom: 2px solid #7ab0d0;
+      padding: 6px 10px;
+      margin-top: 12px;
+      color: #2874a6;
+      font-size: 13px;
+      font-weight: normal;
+    }
+
+    .section-header:first-child {
+      margin-top: 0;
+    }
+
+    /* Form Container */
+    .form-section {
+      background: #f8f8f8;
+      border: 1px solid #ccc;
+      border-top: none;
+      padding: 10px;
+    }
+
+    /* Form Row */
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 10px;
+    }
+
+    .form-row:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Form Group */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .form-group label {
+      font-size: 11px;
+      color: #333;
+    }
+
+    .form-group label .required {
+      color: #c0392b;
+    }
+
+    /* Inputs */
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      padding: 3px 5px;
+      border: 1px solid #999;
+      background: #fff;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    select:focus,
+    textarea:focus {
+      outline: 2px solid #5a9;
+      outline-offset: -1px;
+    }
+
+    select {
+      padding: 2px 4px;
+    }
+
+    textarea {
+      resize: both;
+    }
+
+    input[type="checkbox"] {
+      margin: 0;
+    }
+
+    /* Input with icon */
+    .input-with-icon {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .input-icon {
+      background: #e8e8e8;
+      border: 1px solid #999;
+      border-left: none;
+      padding: 3px 5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .input-icon svg {
+      width: 14px;
+      height: 14px;
+      fill: #555;
+    }
+
+    /* Action Links */
+    .action-link {
+      color: #c0392b;
+      text-decoration: none;
+      font-size: 11px;
+    }
+
+    .action-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Two Column Layout */
+    .two-col {
+      display: flex;
+      gap: 40px;
+    }
+
+    .col {
+      flex: 1;
+    }
+
+    /* Address Section */
+    .address-header {
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 8px;
+      font-size: 12px;
+    }
+
+    /* Checkbox with label inline */
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 6px 0;
+    }
+
+    .checkbox-row label {
+      font-size: 11px;
+    }
+
+    /* Special Services */
+    .service-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #fff;
+      border: 1px solid #999;
+      padding: 2px 6px;
+      margin-right: 8px;
+    }
+
+    .service-tag input[type="checkbox"] {
+      accent-color: #2874a6;
+    }
+
+    .service-tag select {
+      border: none;
+      background: transparent;
+      font-size: 11px;
+    }
+
+    .service-tag .remove {
+      color: #c0392b;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    /* Data Table */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0;
+      font-size: 11px;
+    }
+
+    .data-table th {
+      background: linear-gradient(to bottom, #d4e8f5, #b8d4e8);
+      border: 1px solid #a0c4d8;
+      padding: 5px 8px;
+      text-align: left;
+      font-weight: normal;
+      color: #333;
+      white-space: nowrap;
+    }
+
+    .data-table td {
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 4px 8px;
+    }
+
+    .data-table tr:nth-child(even) td {
+      background: #f8f8f8;
+    }
+
+    .data-table .no-data {
+      text-align: center;
+      color: #2874a6;
+      font-style: italic;
+      padding: 12px;
+    }
+
+    .table-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 4px 0;
+    }
+
+    .table-actions-left {
+      display: flex;
+      gap: 16px;
+    }
+
+    /* Summary Row */
+    .summary-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-top: 8px;
+      font-size: 11px;
+    }
+
+    .summary-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .summary-item label {
+      font-weight: bold;
+    }
+
+    .summary-item span {
+      color: #555;
+    }
+
+    /* Totals Section */
+    .totals-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .total-field {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .total-field label {
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .total-field input {
+      width: 70px;
+    }
+
+    .total-field select {
+      width: 50px;
+    }
+
+    /* Comments Section */
+    .comments-area {
+      display: flex;
+      gap: 20px;
+    }
+
+    .comments-form {
+      flex: 0 0 320px;
+    }
+
+    .comments-table-area {
+      flex: 1;
+    }
+
+    /* Button */
+    .btn {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      padding: 4px 12px;
+      border: 1px solid #888;
+      background: linear-gradient(to bottom, #f8f8f8, #e0e0e0);
+      cursor: pointer;
+      color: #333;
+    }
+
+    .btn:hover {
+      background: linear-gradient(to bottom, #fff, #e8e8e8);
+    }
+
+    .btn:active {
+      background: linear-gradient(to bottom, #ddd, #ccc);
+    }
+
+    .btn-primary {
+      background: linear-gradient(to bottom, #5a9aba, #4a8aaa);
+      color: #fff;
+      border-color: #3a7a9a;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(to bottom, #6aaaca, #5a9aba);
+    }
+
+    /* Required Field Note */
+    .required-note {
+      text-align: right;
+      font-size: 11px;
+      color: #c0392b;
+      margin-bottom: 8px;
+    }
+
+    /* Title Row */
+    .title-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .page-title {
+      font-size: 16px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    /* Horizontal scroll for tables */
+    .table-container {
+      overflow-x: auto;
+    }
+
+    /* Modal Overlay */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.3);
+      z-index: 1000;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 60px;
+    }
+
+    /* Modal */
+    .modal {
+      background: #f0f0f0;
+      border: 1px solid #888;
+      box-shadow: 4px 4px 12px rgba(0,0,0,0.3);
+      min-width: 400px;
+      max-width: 90vw;
+    }
+
+    .modal-header {
+      background: linear-gradient(to bottom, #d4e8f5, #b8d4e8);
+      border-bottom: 1px solid #a0c4d8;
+      padding: 6px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-title {
+      font-size: 13px;
+      color: #333;
+    }
+
+    .modal-controls {
+      display: flex;
+      gap: 8px;
+    }
+
+    .modal-control {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      color: #555;
+      padding: 0 4px;
+    }
+
+    .modal-control:hover {
+      color: #000;
+    }
+
+    .modal-body {
+      padding: 10px;
+      background: #f8f8f8;
+    }
+
+    .modal-footer {
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      background: #f0f0f0;
+      border-top: 1px solid #ccc;
+    }
+
+    .modal-footer-right {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #999;
+      margin-bottom: 10px;
+    }
+
+    .tab {
+      padding: 6px 16px;
+      background: #e8e8e8;
+      border: 1px solid #999;
+      border-bottom: none;
+      cursor: pointer;
+      font-size: 12px;
+      margin-right: 2px;
+    }
+
+    .tab:hover {
+      background: #f0f0f0;
+    }
+
+    .tab.active {
+      background: #fff;
+      border-bottom: 1px solid #fff;
+      margin-bottom: -1px;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Trading Partner Modal Specific */
+    .tp-search-layout {
+      display: flex;
+      gap: 16px;
+    }
+
+    .tp-search-left {
+      flex: 1;
+    }
+
+    .tp-search-right {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .tp-type-dropdown {
+      border: 1px solid #999;
+      background: #fff;
+    }
+
+    .tp-type-header {
+      background: linear-gradient(to bottom, #d4e8f5, #b8d4e8);
+      padding: 4px 8px;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .tp-type-search {
+      padding: 4px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .tp-type-search input {
+      width: 100%;
+    }
+
+    .tp-type-list {
+      max-height: 150px;
+      overflow-y: auto;
+      padding: 4px;
+    }
+
+    .tp-type-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 2px 0;
+      font-size: 11px;
+    }
+
+    .tp-arrows {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .tp-arrow {
+      background: #e8e8e8;
+      border: 1px solid #999;
+      padding: 4px 8px;
+      cursor: pointer;
+      font-size: 10px;
+      color: #555;
+    }
+
+    .tp-arrow:hover {
+      background: #ddd;
+    }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 8px;
+      background: linear-gradient(to bottom, #d4e8f5, #b8d4e8);
+      border-top: 1px solid #a0c4d8;
+      font-size: 11px;
+    }
+
+    .pagination input {
+      width: 30px;
+      text-align: center;
+    }
+
+    .pagination select {
+      width: 50px;
+    }
+
+    .page-btn {
+      background: #e8e8e8;
+      border: 1px solid #999;
+      padding: 2px 8px;
+      cursor: pointer;
+    }
+
+    .page-btn:hover {
+      background: #ddd;
+    }
+
+    /* Quote Line Modal Specific */
+    .ql-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px 16px;
+    }
+
+    .ql-grid .form-group.wide {
+      grid-column: span 1;
+    }
+
+    .ql-grid .form-group.description {
+      grid-row: span 3;
+    }
+
+    .ql-dimensions {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .ql-dimensions input {
+      width: 50px;
+    }
+
+    .ql-dimensions span {
+      color: #666;
+    }
+
+    /* Line Items Table - specific widths */
+    .line-items-table th:nth-child(1),
+    .line-items-table td:nth-child(1) { width: 30px; }
+    .line-items-table th:nth-child(2),
+    .line-items-table td:nth-child(2) { width: 60px; }
+
+    /* Hidden */
+    .hidden {
+      display: none !important;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <nav class="top-nav">
+    <a href="#" class="top-nav-item home">
+      <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    </a>
+    <a href="#" class="top-nav-item">File</a>
+    <a href="#" class="top-nav-item">Planning</a>
+    <a href="#" class="top-nav-item">Master Data</a>
+    <a href="#" class="top-nav-item">Reports</a>
+    <a href="#" class="top-nav-item">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
+    </a>
+    <div class="top-nav-right">
+      <span class="search-icon">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      </span>
+    </div>
+  </nav>
+
+  <!-- Sub Navigation -->
+  <nav class="sub-nav">
+    <a href="#" class="sub-nav-item active">Add Quote</a>
+    <a href="#" class="sub-nav-item">Quotes</a>
+    <a href="#" class="sub-nav-item">Orders</a>
+    <a href="#" class="sub-nav-item">Loads</a>
+    <a href="#" class="sub-nav-item">Load Mgmt Workspace</a>
+    <a href="#" class="sub-nav-item">Locations</a>
+  </nav>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <button class="toolbar-btn" title="Expand">
+      <svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" fill="currentColor"/></svg>
+    </button>
+    <button class="toolbar-btn" title="Cancel">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z" fill="currentColor"/></svg>
+    </button>
+    <button class="toolbar-btn" title="Save">
+      <svg viewBox="0 0 24 24"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z" fill="currentColor"/></svg>
+    </button>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+
+    <!-- Create Quote Header -->
+    <div class="title-row">
+      <span class="page-title">Create Quote</span>
+      <span class="required-note">* Indicates Required Field</span>
+    </div>
+
+    <!-- Quote Header Fields -->
+    <div class="form-row">
+      <div class="form-group">
+        <label>Quote Num:</label>
+        <input type="text" id="quoteNum" style="width: 100px;">
+      </div>
+      <div class="form-group">
+        <label><span class="required">*</span> Client:</label>
+        <div class="input-with-icon">
+          <input type="text" id="client" style="width: 120px;" placeholder="Client">
+          <span class="input-icon" onclick="openTradingPartnerModal()">
+            <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Division:</label>
+        <div class="input-with-icon">
+          <input type="text" id="division" style="width: 120px;" placeholder="Division">
+          <span class="input-icon">
+            <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Quote Contact:</label>
+        <div class="input-with-icon">
+          <input type="text" id="quoteContact" style="width: 120px;" placeholder="Contact Name">
+          <span class="input-icon" style="background: #d4e8f5;">
+            <span style="font-size: 14px; color: #2874a6;">+</span>
+          </span>
+          <span class="input-icon">
+            <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Quote Expiration Date:</label>
+        <div class="input-with-icon">
+          <input type="text" id="quoteExpDate" style="width: 100px;">
+          <span class="input-icon">
+            <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z" fill="currentColor"/></svg>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Date and Address Info -->
+    <div class="section-header">Date and Address Info</div>
+    <div class="form-section">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Ship Date:</label>
+          <div class="input-with-icon">
+            <input type="text" id="shipDate" style="width: 100px;">
+            <span class="input-icon">
+              <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z" fill="currentColor"/></svg>
+            </span>
+          </div>
+        </div>
+        <div class="form-group" style="margin-left: 80px;">
+          <label>Delivery Date:</label>
+          <div class="input-with-icon">
+            <input type="text" id="deliveryDate" style="width: 100px;">
+            <span class="input-icon">
+              <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z" fill="currentColor"/></svg>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="two-col" style="margin-top: 16px;">
+        <!-- Origin -->
+        <div class="col">
+          <div class="address-header">Where are you shipping from?</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Country:</label>
+              <select id="originCountry" style="width: 100px;">
+                <option>Canada</option>
+                <option>United States</option>
+                <option>Mexico</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Origin Postal Code:</label>
+              <div class="input-with-icon">
+                <input type="text" id="originPostal" style="width: 100px;" placeholder="Postal Code">
+                <span class="input-icon">
+                  <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Origin City:</label>
+              <input type="text" id="originCity" style="width: 140px;">
+            </div>
+            <div class="form-group">
+              <label>State:</label>
+              <select id="originState" style="width: 120px;">
+                <option>Please Choose</option>
+                <option>AB</option>
+                <option>BC</option>
+                <option>MB</option>
+                <option>NB</option>
+                <option>NL</option>
+                <option>NS</option>
+                <option>NT</option>
+                <option>NU</option>
+                <option>ON</option>
+                <option>PE</option>
+                <option>QC</option>
+                <option>SK</option>
+                <option>YT</option>
+              </select>
+            </div>
+          </div>
+          <div class="checkbox-row">
+            <input type="checkbox" id="originEnterLocation">
+            <label for="originEnterLocation">Select to Enter a Location</label>
+          </div>
+        </div>
+
+        <!-- Destination -->
+        <div class="col">
+          <div class="address-header">Where are you shipping to?</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Country:</label>
+              <select id="destCountry" style="width: 100px;">
+                <option>Canada</option>
+                <option>United States</option>
+                <option>Mexico</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Dest Postal Code:</label>
+              <div class="input-with-icon">
+                <input type="text" id="destPostal" style="width: 100px;" placeholder="Postal Code">
+                <span class="input-icon">
+                  <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Destination City:</label>
+              <input type="text" id="destCity" style="width: 140px;">
+            </div>
+            <div class="form-group">
+              <label>State:</label>
+              <select id="destState" style="width: 120px;">
+                <option>Please Choose</option>
+                <option>AB</option>
+                <option>BC</option>
+                <option>MB</option>
+                <option>NB</option>
+                <option>NL</option>
+                <option>NS</option>
+                <option>NT</option>
+                <option>NU</option>
+                <option>ON</option>
+                <option>PE</option>
+                <option>QC</option>
+                <option>SK</option>
+                <option>YT</option>
+              </select>
+            </div>
+          </div>
+          <div class="checkbox-row">
+            <input type="checkbox" id="destEnterLocation">
+            <label for="destEnterLocation">Select to Enter a Location</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Distance -->
+      <div class="form-row" style="margin-top: 16px;">
+        <div class="form-group">
+          <label>Distance:</label>
+          <div class="input-with-icon">
+            <input type="text" id="distance" style="width: 70px;">
+            <span style="margin-left: 4px;">Mi</span>
+            <span class="input-icon" style="margin-left: 4px;">
+              <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4 14H9v-2h6v2zm3-4H6v-2h12v2zm0-4H6V7h12v2z" fill="currentColor"/></svg>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Special Services -->
+    <div class="section-header">Do you require special services?</div>
+    <div class="form-section">
+      <div id="accessorialTags">
+        <!-- Tags will be added here -->
+      </div>
+      <a href="#" class="action-link" onclick="addAccessorial(); return false;">Add Another Accessorial</a>
+    </div>
+
+    <!-- What are you shipping -->
+    <div class="section-header">What are you shipping?</div>
+    <div class="form-section">
+      <div class="form-row">
+        <div class="checkbox-row">
+          <input type="checkbox" id="hazmat">
+          <label for="hazmat">Hazmat</label>
+        </div>
+        <div class="form-group" style="margin-left: 40px;">
+          <label>Ship Value:</label>
+          <div style="display: flex; align-items: center; gap: 4px;">
+            <input type="text" id="shipValue" style="width: 80px; text-align: right;" value="0.00">
+            <select id="shipCurrency" style="width: 60px;">
+              <option>CAD</option>
+              <option>USD</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Line Items Table -->
+      <div class="table-container">
+        <table class="data-table line-items-table" id="lineItemsTable">
+          <thead>
+            <tr>
+              <th><input type="checkbox"></th>
+              <th>Freight Cla...</th>
+              <th>Locked</th>
+              <th>Density</th>
+              <th>Density UOM</th>
+              <th>NMFC</th>
+              <th>Description</th>
+              <th>Net Wt</th>
+              <th>Net Wt UOM</th>
+              <th>Net Vol</th>
+              <th>Net Vol UOM</th>
+              <th>Piece Type</th>
+            </tr>
+          </thead>
+          <tbody id="lineItemsBody">
+            <tr class="no-data-row">
+              <td colspan="12" class="no-data">No data to display</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-actions">
+        <div class="table-actions-left">
+          <a href="#" class="action-link">Save Columns</a>
+          <a href="#" class="action-link">Delete Selections</a>
+        </div>
+        <button class="btn btn-primary" onclick="openQuoteLineModal()">Add Line</button>
+      </div>
+
+      <div class="summary-row">
+        <div class="summary-item">
+          <label>Net Weight:</label>
+          <span>Lb</span>
+        </div>
+        <div class="summary-item">
+          <label>Freight Class Overridden:</label>
+          <span></span>
+        </div>
+        <div class="summary-item">
+          <label>Net Volume:</label>
+          <span>CuFt</span>
+        </div>
+        <div class="summary-item">
+          <label>Handling Units:</label>
+          <span></span>
+        </div>
+        <div class="summary-item">
+          <label>Linear Length:</label>
+          <span>Ft</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shipment Totals -->
+    <div class="section-header">Shipment Totals</div>
+    <div class="form-section">
+      <div class="totals-grid">
+        <div class="total-field">
+          <label>Wt Grs Tot:</label>
+          <input type="text" id="wtGrsTot" style="width: 70px;">
+          <select id="wtGrsUom" style="width: 50px;">
+            <option>Kg</option>
+            <option>Lb</option>
+          </select>
+        </div>
+        <div class="total-field">
+          <label>Wt Net Tot:</label>
+          <input type="text" id="wtNetTot" style="width: 70px;">
+          <select id="wtNetUom" style="width: 50px;">
+            <option>Kg</option>
+            <option>Lb</option>
+          </select>
+        </div>
+        <div class="total-field">
+          <label>Vol Grs Tot:</label>
+          <input type="text" id="volGrsTot" style="width: 70px;">
+          <select id="volGrsUom" style="width: 50px;">
+            <option>M3</option>
+            <option>CuFt</option>
+          </select>
+        </div>
+        <div class="total-field">
+          <label>Vol Net Tot:</label>
+          <input type="text" id="volNetTot" style="width: 70px;">
+          <select id="volNetUom" style="width: 50px;">
+            <option>M3</option>
+            <option>CuFt</option>
+          </select>
+        </div>
+        <div class="total-field">
+          <label>Handling Units:</label>
+          <input type="text" id="handlingUnits" style="width: 50px;">
+        </div>
+      </div>
+      <div class="totals-grid" style="margin-top: 8px;">
+        <div class="total-field">
+          <label>Linear Length Tot:</label>
+          <input type="text" id="linearLengthTot" style="width: 70px;">
+          <select style="width: 50px;">
+            <option>Ft</option>
+            <option>M</option>
+          </select>
+        </div>
+        <div class="total-field">
+          <label>Billable Weight:</label>
+          <input type="text" id="billableWeight" style="width: 70px;">
+          <select style="width: 50px;">
+            <option>Kg</option>
+            <option>Lb</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comments & Special Instructions -->
+    <div class="section-header">Comments & Special Instructions</div>
+    <div class="form-section">
+      <div class="comments-area">
+        <div class="comments-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Comment Type:</label>
+              <select id="commentType" style="width: 150px;">
+                <option>Please Choose</option>
+                <option>SpecialInstruction</option>
+                <option>InternalNote</option>
+                <option>PickupInstruction</option>
+                <option>DeliveryInstruction</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Stop:</label>
+              <input type="text" id="commentStop" style="width: 40px;">
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: 8px;">
+            <label>Comment:</label>
+            <textarea id="commentText" rows="5" style="width: 300px;"></textarea>
+          </div>
+          <div style="margin-top: 8px;">
+            <button class="btn" onclick="saveComment()">Save</button>
+            <button class="btn">Cancel</button>
+          </div>
+        </div>
+        <div class="comments-table-area">
+          <table class="data-table" id="commentsTable">
+            <thead>
+              <tr>
+                <th>Comment Type</th>
+                <th>Comment</th>
+                <th>Stop</th>
+              </tr>
+            </thead>
+            <tbody id="commentsBody">
+              <tr class="no-data-row">
+                <td colspan="3" class="no-data">No data to display</td>
+              </tr>
+            </tbody>
+          </table>
+          <a href="#" class="action-link">Delete Selections</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Constraints -->
+    <div class="section-header">Are there any other constraints?</div>
+    <div class="form-section">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Equipment:</label>
+          <select id="equipment" style="width: 120px;">
+            <option>Please Choose</option>
+            <option>Dry Van</option>
+            <option>Flatbed</option>
+            <option>Reefer</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Carrier:</label>
+          <div class="input-with-icon">
+            <input type="text" id="carrier" style="width: 140px;" placeholder="Name, SCAC, MC#, TP#">
+            <span class="input-icon">
+              <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            </span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Mode:</label>
+          <select id="mode" style="width: 100px;">
+            <option>Please Choose</option>
+            <option>LTL</option>
+            <option>TL</option>
+            <option>Parcel</option>
+            <option>Intermodal</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Service Option:</label>
+          <select id="serviceOption" style="width: 100px;">
+            <option>Please Choose</option>
+            <option>Road</option>
+            <option>Rail</option>
+            <option>Air</option>
+            <option>Ocean</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>LTL Service:</label>
+          <select id="ltlService" style="width: 100px;">
+            <option>Please Choose</option>
+            <option>Standard</option>
+            <option>Expedited</option>
+            <option>Guaranteed</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rate Information -->
+    <div class="section-header">Rate Information</div>
+    <div class="form-section">
+      <div class="form-row" style="justify-content: center;">
+        <div class="form-group">
+          <label>Needs Review:</label>
+          <select id="needsReview" style="width: 120px;">
+            <option>Please Choose</option>
+            <option>Yes</option>
+            <option>No</option>
+          </select>
+        </div>
+      </div>
+
+      <table class="data-table" style="margin-top: 12px;">
+        <thead>
+          <tr>
+            <th><input type="checkbox"></th>
+            <th>Charge Type</th>
+            <th>Acc Code</th>
+            <th>Acc Desc</th>
+            <th>Qty</th>
+            <th>Net Amt</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="7" class="no-data">No data to display</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="table-actions">
+        <div class="table-actions-left">
+          <a href="#" class="action-link">Save Columns</a>
+          <a href="#" class="action-link">Delete Selections</a>
+        </div>
+        <button class="btn btn-primary">Add Quote Charge</button>
+      </div>
+
+      <div class="summary-row" style="margin-top: 12px;">
+        <div class="summary-item"><label>Net Freight:</label><span></span></div>
+        <div class="summary-item"><label>Net Charge Total:</label><span></span></div>
+        <div class="summary-item"><label>Third Party Charge:</label><span></span></div>
+      </div>
+      <div class="summary-row">
+        <div class="summary-item"><label>Net Cost:</label><span></span></div>
+        <div class="summary-item"><label>Benchmark:</label><span></span></div>
+        <div class="summary-item"><label>Gainshare:</label><span></span></div>
+      </div>
+      <div class="summary-row">
+        <div class="summary-item"><label>Contract Name:</label><span></span></div>
+        <div class="summary-item"><label>Rate Source:</label><span></span></div>
+      </div>
+    </div>
+
+    <!-- Rated Service Information -->
+    <div class="section-header">Rated Service Information</div>
+    <div class="form-section">
+      <div class="form-group">
+        <label>Est. Transit Days:</label>
+        <input type="text" id="estTransitDays" style="width: 60px;">
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Trading Partner Modal -->
+  <div class="modal-overlay" id="tradingPartnerModal">
+    <div class="modal" style="width: 700px;">
+      <div class="modal-header">
+        <span class="modal-title">Trading Partner</span>
+        <div class="modal-controls">
+          <button class="modal-control">∧</button>
+          <button class="modal-control" onclick="closeTradingPartnerModal()">×</button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="tabs">
+          <div class="tab active" onclick="switchTpTab('search')">Search</div>
+          <div class="tab" onclick="switchTpTab('results')">Results</div>
+        </div>
+
+        <!-- Search Tab -->
+        <div class="tab-content active" id="tpSearchTab">
+          <div class="tp-search-layout">
+            <div class="tp-search-left">
+              <div class="tp-type-dropdown">
+                <div class="tp-type-header">
+                  Trading Partner Type
+                  <span>▼</span>
+                </div>
+                <div class="tp-type-search">
+                  <input type="text" id="tpTypeSearch" placeholder="" value="Tr">
+                </div>
+                <div class="tp-type-list">
+                  <div class="tp-type-item"><input type="checkbox"> Accessorial Favorite Code</div>
+                  <div class="tp-type-item"><input type="checkbox"> Accessorial Service Code</div>
+                  <div class="tp-type-item"><input type="checkbox"> Admin & Terminal Location Radius</div>
+                  <div class="tp-type-item"><input type="checkbox"> Advance Control - Accessorials Only</div>
+                  <div class="tp-type-item"><input type="checkbox"> Advance Control - Freight Only</div>
+                  <div class="tp-type-item"><input type="checkbox"> Advance Control - Specific Charge</div>
+                </div>
+              </div>
+            </div>
+            <div class="tp-arrows">
+              <button class="tp-arrow">▲</button>
+              <button class="tp-arrow">▼</button>
+            </div>
+            <div class="tp-search-right">
+              <button class="btn" style="width: 100px;">Search</button>
+              <button class="btn" style="width: 100px;">Remove Fields</button>
+              <button class="btn" style="width: 100px;">Clear</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results Tab -->
+        <div class="tab-content" id="tpResultsTab">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Trading Partner Name</th>
+                <th>Trading Partner...</th>
+                <th>Type</th>
+                <th>Is Active</th>
+                <th>Freight Ter...</th>
+              </tr>
+            </thead>
+            <tbody id="tpResultsBody">
+              <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+            </tbody>
+          </table>
+          <div class="pagination">
+            <span>Go To Page</span>
+            <input type="text" value="1">
+            <span>Show Row</span>
+            <select><option>25</option><option>50</option><option>100</option></select>
+            <span>1-1 of 1</span>
+            <button class="page-btn">&lt;</button>
+            <button class="page-btn">&gt;</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quote Line Modal -->
+  <div class="modal-overlay" id="quoteLineModal">
+    <div class="modal" style="width: 850px;">
+      <div class="modal-header">
+        <span class="modal-title">Quote Line</span>
+        <div class="modal-controls">
+          <button class="modal-control" onclick="closeQuoteLineModal()">×</button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1.2fr; gap: 10px 16px;">
+          <!-- Row 1 -->
+          <div class="form-group">
+            <label>Freight Class:</label>
+            <select id="qlFreightClass" style="width: 100%;">
+              <option>Please Choose</option>
+              <option>50</option>
+              <option>55</option>
+              <option>60</option>
+              <option>65</option>
+              <option>70</option>
+              <option>77.5</option>
+              <option>85</option>
+              <option>92.5</option>
+              <option>100</option>
+              <option>110</option>
+              <option>125</option>
+              <option>150</option>
+              <option>175</option>
+              <option>200</option>
+              <option>250</option>
+              <option>300</option>
+              <option>400</option>
+              <option>500</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <input type="checkbox" id="qlLocked"> <label for="qlLocked">Locked</label>
+            </div>
+            <label style="margin-top: 4px;">Density:</label>
+            <div class="input-with-icon">
+              <input type="text" id="qlDensity" style="width: 60px;">
+              <span class="input-icon">
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4 14H9v-2h6v2zm3-4H6v-2h12v2zm0-4H6V7h12v2z" fill="currentColor"/></svg>
+              </span>
+              <select id="qlDensityUom" style="width: 90px;">
+                <option>Lb Per Cu Ft</option>
+                <option>Kg Per M3</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>NMFC:</label>
+            <input type="text" id="qlNmfc" style="width: 100%;">
+          </div>
+          <div class="form-group" style="grid-row: span 3;">
+            <label>Description:</label>
+            <textarea id="qlDescription" style="width: 100%; height: 80px;"></textarea>
+          </div>
+
+          <!-- Row 2 -->
+          <div class="form-group">
+            <label>Net Wt:</label>
+            <div style="display: flex; gap: 4px;">
+              <input type="text" id="qlNetWt" style="width: 70px;">
+              <select id="qlNetWtUom" style="width: 50px;">
+                <option>Lb</option>
+                <option>Kg</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Net Vol:</label>
+            <div style="display: flex; gap: 4px;">
+              <input type="text" id="qlNetVol" style="width: 70px;">
+              <select id="qlNetVolUom" style="width: 50px;">
+                <option>CuF</option>
+                <option>M3</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>HU Count:</label>
+            <div style="display: flex; gap: 4px;">
+              <input type="text" id="qlHuCount" style="width: 50px;">
+              <select id="qlHuType" style="width: 100px;">
+                <option>Please Choose</option>
+                <option>*PALLET</option>
+                <option>*SKID</option>
+                <option>*CRATE</option>
+                <option>*DRUM</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Row 3 -->
+          <div class="form-group">
+            <label>L x W x H:</label>
+            <div class="ql-dimensions">
+              <input type="text" id="qlLength">
+              <input type="text" id="qlWidth">
+              <input type="text" id="qlHeight">
+              <select id="qlDimUom" style="width: 45px;">
+                <option>In</option>
+                <option>Cm</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Linear Length:</label>
+            <div style="display: flex; gap: 4px;">
+              <input type="text" id="qlLinearLength" style="width: 70px;">
+              <select style="width: 50px;">
+                <option>Ft</option>
+                <option>M</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Min Temp:</label>
+            <input type="text" id="qlMinTemp" style="width: 70px;">
+            <label style="margin-top: 4px;">Max Temp:</label>
+            <input type="text" id="qlMaxTemp" style="width: 70px;">
+          </div>
+
+          <!-- Row 4 -->
+          <div class="form-group">
+            <div class="checkbox-row">
+              <input type="checkbox" id="qlNonStackable">
+              <label for="qlNonStackable">Non-stackable</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="checkbox-row">
+              <input type="checkbox" id="qlHazmat">
+              <label for="qlHazmat">Hazmat</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>UN Class:</label>
+            <input type="text" id="qlUnClass" style="width: 100%; background: #e8e8e8;" disabled>
+          </div>
+          <div></div>
+
+          <!-- Row 5 - Hazmat fields -->
+          <div class="form-group">
+            <label>Hazmat Contact Number:</label>
+            <input type="text" id="qlHazmatPhone" style="width: 100%;">
+          </div>
+          <div class="form-group">
+            <label>Packing Group:</label>
+            <select id="qlPackingGroup" style="width: 100%;">
+              <option>Please Choose</option>
+              <option>I</option>
+              <option>II</option>
+              <option>III</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Hazmat Class:</label>
+            <select id="qlHazmatClass" style="width: 100%;">
+              <option>Please Choose</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+            </select>
+          </div>
+          <div></div>
+
+          <!-- Row 6 -->
+          <div class="form-group">
+            <label>Proper Shipping Name:</label>
+            <input type="text" id="qlProperName" style="width: 100%;">
+          </div>
+          <div class="form-group">
+            <label>Special Provisions:</label>
+            <input type="text" id="qlSpecialProvisions" style="width: 100%;">
+          </div>
+          <div class="form-group">
+            <label>Subsidiary Class:</label>
+            <input type="text" id="qlSubsidiaryClass" style="width: 100%;">
+          </div>
+          <div></div>
+
+          <!-- Row 7 -->
+          <div class="form-group">
+            <label>Hazmat Contact Name:</label>
+            <input type="text" id="qlHazmatName" style="width: 100%;">
+          </div>
+          <div class="form-group">
+            <label>ERAP Reference:</label>
+            <input type="text" id="qlErap" style="width: 100%;">
+          </div>
+          <div class="form-group">
+            <label>Line #:</label>
+            <input type="text" id="qlLineNum" style="width: 60px; text-align: right;" value="0" readonly>
+          </div>
+          <div></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" onclick="clearQuoteLine()">Clear</button>
+        <div class="modal-footer-right">
+          <button class="btn btn-primary" onclick="saveQuoteLine(true)">Save & Add Another</button>
+          <button class="btn btn-primary" onclick="saveQuoteLine(false)">Save & Close</button>
+          <button class="btn" onclick="closeQuoteLineModal()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Line item counter
+    let lineItemCount = 0;
+
+    // Modal functions
+    function openTradingPartnerModal() {
+      document.getElementById('tradingPartnerModal').classList.add('active');
+    }
+
+    function closeTradingPartnerModal() {
+      document.getElementById('tradingPartnerModal').classList.remove('active');
+    }
+
+    function switchTpTab(tab) {
+      document.querySelectorAll('#tradingPartnerModal .tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('#tradingPartnerModal .tab-content').forEach(c => c.classList.remove('active'));
+
+      if (tab === 'search') {
+        document.querySelector('#tradingPartnerModal .tab:nth-child(1)').classList.add('active');
+        document.getElementById('tpSearchTab').classList.add('active');
+      } else {
+        document.querySelector('#tradingPartnerModal .tab:nth-child(2)').classList.add('active');
+        document.getElementById('tpResultsTab').classList.add('active');
+      }
+    }
+
+    function openQuoteLineModal() {
+      document.getElementById('quoteLineModal').classList.add('active');
+      document.getElementById('qlLineNum').value = lineItemCount;
+    }
+
+    function closeQuoteLineModal() {
+      document.getElementById('quoteLineModal').classList.remove('active');
+    }
+
+    function clearQuoteLine() {
+      document.getElementById('qlFreightClass').value = 'Please Choose';
+      document.getElementById('qlLocked').checked = false;
+      document.getElementById('qlDensity').value = '';
+      document.getElementById('qlNmfc').value = '';
+      document.getElementById('qlDescription').value = '';
+      document.getElementById('qlNetWt').value = '';
+      document.getElementById('qlNetVol').value = '';
+      document.getElementById('qlHuCount').value = '';
+      document.getElementById('qlHuType').value = 'Please Choose';
+      document.getElementById('qlLength').value = '';
+      document.getElementById('qlWidth').value = '';
+      document.getElementById('qlHeight').value = '';
+    }
+
+    function saveQuoteLine(addAnother) {
+      const freightClass = document.getElementById('qlFreightClass').value;
+      const density = document.getElementById('qlDensity').value;
+      const densityUom = document.getElementById('qlDensityUom').value;
+      const nmfc = document.getElementById('qlNmfc').value;
+      const description = document.getElementById('qlDescription').value;
+      const netWt = document.getElementById('qlNetWt').value;
+      const netWtUom = document.getElementById('qlNetWtUom').value;
+      const netVol = document.getElementById('qlNetVol').value;
+      const netVolUom = document.getElementById('qlNetVolUom').value;
+      const huType = document.getElementById('qlHuType').value;
+
+      // Remove "no data" row if present
+      const noDataRow = document.querySelector('#lineItemsBody .no-data-row');
+      if (noDataRow) noDataRow.remove();
+
+      // Add row
+      const tbody = document.getElementById('lineItemsBody');
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td><input type="checkbox"></td>
+        <td>${freightClass !== 'Please Choose' ? freightClass : ''}</td>
+        <td><input type="checkbox" disabled></td>
+        <td>${density}</td>
+        <td>${densityUom}</td>
+        <td>${nmfc}</td>
+        <td>${description.substring(0, 25)}${description.length > 25 ? '...' : ''}</td>
+        <td>${netWt}</td>
+        <td>${netWtUom}</td>
+        <td>${netVol}</td>
+        <td>${netVolUom}</td>
+        <td>${huType !== 'Please Choose' ? huType : ''}</td>
+      `;
+      tbody.appendChild(row);
+      lineItemCount++;
+
+      if (addAnother) {
+        clearQuoteLine();
+        document.getElementById('qlLineNum').value = lineItemCount;
+      } else {
+        closeQuoteLineModal();
+      }
+    }
+
+    // Accessorial functions
+    let accessorialCount = 0;
+    function addAccessorial() {
+      const container = document.getElementById('accessorialTags');
+      const tag = document.createElement('span');
+      tag.className = 'service-tag';
+      tag.id = 'acc-' + accessorialCount;
+      tag.innerHTML = `
+        <input type="checkbox" checked>
+        <select>
+          <option>*PTG-Power Tailgate Fee</option>
+          <option>*LFT-Liftgate</option>
+          <option>*RES-Residential</option>
+          <option>*APT-Appointment</option>
+        </select>
+        <span class="remove" onclick="removeAccessorial('acc-${accessorialCount}')">&times;</span>
+      `;
+      container.appendChild(tag);
+      accessorialCount++;
+    }
+
+    function removeAccessorial(id) {
+      document.getElementById(id).remove();
+    }
+
+    // Comment functions
+    function saveComment() {
+      const type = document.getElementById('commentType').value;
+      const text = document.getElementById('commentText').value;
+      const stop = document.getElementById('commentStop').value;
+
+      if (type === 'Please Choose' || !text) return;
+
+      // Remove "no data" row
+      const noDataRow = document.querySelector('#commentsBody .no-data-row');
+      if (noDataRow) noDataRow.remove();
+
+      const tbody = document.getElementById('commentsBody');
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${type}</td>
+        <td>${text.substring(0, 50)}${text.length > 50 ? '...' : ''}</td>
+        <td>${stop}</td>
+      `;
+      tbody.appendChild(row);
+
+      // Clear form
+      document.getElementById('commentType').value = 'Please Choose';
+      document.getElementById('commentText').value = '';
+      document.getElementById('commentStop').value = '';
+    }
+
+    // ====================================
+    // AUTOMATION SCRIPT (Press P to run)
+    // ====================================
+    const DEMO_DATA = {
+      client: "Acadia Foodservice Equipment",
+      shipDate: "08/12/2025",
+      deliveryDate: "08/15/2025",
+      originPostal: "N3S 7W1",
+      originCity: "Brantford",
+      originState: "ON",
+      destPostal: "E1C 2S3",
+      destCity: "Moncton",
+      destState: "NB",
+      distance: "1003.17",
+      shipValue: "5500.00",
+      carrier: "MapleLeaf Freight Lines",
+      mode: "LTL",
+      serviceOption: "Road",
+      ltlService: "Standard",
+      comment: "Please ensure that the driver is aware of the power tailgate requirement and that the refrigeration unit must remain upright at all times during transit and unloading.",
+      lineItems: [
+        {
+          freightClass: "125",
+          density: "136.48",
+          nmfc: "80420",
+          description: "AFE DC-560 Dipping Cabinet with Sneeze Guard",
+          netWt: "104.00",
+          netWtUom: "Kg",
+          netVol: "1.70",
+          netVolUom: "M3",
+          huCount: "1",
+          huType: "*PALLET"
+        },
+        {
+          freightClass: "150",
+          density: "2.08",
+          nmfc: "80422",
+          description: "AFE VC-720 Vertical Display Freezer",
+          netWt: "125.00",
+          netWtUom: "Kg",
+          netVol: "1.70",
+          netVolUom: "M3",
+          huCount: "1",
+          huType: "*PALLET"
+        },
+        {
+          freightClass: "110",
+          density: "1.58",
+          nmfc: "80418",
+          description: "AFE CT-300 Commercial Chest Freezer",
+          netWt: "95.00",
+          netWtUom: "Kg",
+          netVol: "1.13",
+          netVolUom: "M3",
+          huCount: "1",
+          huType: "*PALLET"
+        }
+      ]
+    };
+
+    // Typing animation helper
+    // Keep the field being filled comfortably in the 16:9 frame.
+    // Stays still for fields already in the upper/middle band; smoothly pans
+    // only when a field is near the top or below the lower comfort line.
+    // Never scrolls the page while a centered modal is open.
+    function keepInView(element) {
+      if (!element || element.closest('.modal-overlay')) return Promise.resolve();
+      const rect = element.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const needsScroll = rect.top < vh * 0.15 || rect.bottom > vh * 0.75;
+      if (!needsScroll) return Promise.resolve();
+      window.scrollTo({ top: window.scrollY + rect.top - vh * 0.35, behavior: 'smooth' });
+      return new Promise(r => setTimeout(r, 450)); // let the pan settle before typing
+    }
+
+    async function typeText(element, text, charDelay = 20) {
+      await keepInView(element);
+      return new Promise(resolve => {
+        let i = 0;
+        element.value = '';
+        element.focus();
+        const interval = setInterval(() => {
+          if (i < text.length) {
+            element.value += text[i];
+            i++;
+          } else {
+            clearInterval(interval);
+            resolve();
+          }
+        }, charDelay);
+      });
+    }
+
+    async function setSelect(element, value) {
+      await keepInView(element);
+      return new Promise(resolve => {
+        element.focus();
+        setTimeout(() => {
+          element.value = value;
+          element.dispatchEvent(new Event('change'));
+          resolve();
+        }, 50);
+      });
+    }
+
+    function delay(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function runAutomation() {
+      const d = DEMO_DATA;
+      window.scrollTo({ top: 0, behavior: 'auto' }); // frame every take identically
+
+      // Phase 1: Client
+      await typeText(document.getElementById('client'), d.client, 15);
+      await delay(100);
+
+      // Open Trading Partner modal briefly
+      openTradingPartnerModal();
+      await delay(300);
+      switchTpTab('results');
+      await delay(400);
+
+      // Add result row and click it
+      const resultsBody = document.getElementById('tpResultsBody');
+      resultsBody.innerHTML = `
+        <tr style="cursor: pointer; background: #e8f4fc;" onclick="selectTradingPartner()">
+          <td>Acadia Foodservice Equipment</td>
+          <td>AFE-789</td>
+          <td>Customer</td>
+          <td>Yes</td>
+          <td>Prepaid</td>
+        </tr>
+      `;
+      await delay(300);
+      closeTradingPartnerModal();
+      await delay(150);
+
+      // Phase 2: Dates
+      await typeText(document.getElementById('shipDate'), d.shipDate, 20);
+      await delay(80);
+      await typeText(document.getElementById('deliveryDate'), d.deliveryDate, 20);
+      await delay(100);
+
+      // Phase 3: Origin
+      await typeText(document.getElementById('originPostal'), d.originPostal, 20);
+      await delay(80);
+      await typeText(document.getElementById('originCity'), d.originCity, 20);
+      await delay(50);
+      await setSelect(document.getElementById('originState'), d.originState);
+      await delay(100);
+
+      // Phase 4: Destination
+      await typeText(document.getElementById('destPostal'), d.destPostal, 20);
+      await delay(80);
+      await typeText(document.getElementById('destCity'), d.destCity, 20);
+      await delay(50);
+      await setSelect(document.getElementById('destState'), d.destState);
+      await delay(100);
+
+      // Phase 5: Distance
+      await typeText(document.getElementById('distance'), d.distance, 25);
+      await delay(100);
+
+      // Phase 6: Accessorial
+      addAccessorial();
+      await delay(150);
+
+      // Phase 7: Line Items
+      for (let i = 0; i < d.lineItems.length; i++) {
+        const item = d.lineItems[i];
+        openQuoteLineModal();
+        await delay(200);
+
+        await setSelect(document.getElementById('qlFreightClass'), item.freightClass);
+        await delay(50);
+        await typeText(document.getElementById('qlDensity'), item.density, 15);
+        await delay(50);
+        await typeText(document.getElementById('qlNmfc'), item.nmfc, 15);
+        await delay(50);
+        await typeText(document.getElementById('qlDescription'), item.description, 10);
+        await delay(50);
+        await typeText(document.getElementById('qlNetWt'), item.netWt, 15);
+        await setSelect(document.getElementById('qlNetWtUom'), item.netWtUom);
+        await delay(50);
+        await typeText(document.getElementById('qlNetVol'), item.netVol, 15);
+        await setSelect(document.getElementById('qlNetVolUom'), item.netVolUom);
+        await delay(50);
+        await typeText(document.getElementById('qlHuCount'), item.huCount, 20);
+        await setSelect(document.getElementById('qlHuType'), item.huType);
+        await delay(100);
+
+        if (i < d.lineItems.length - 1) {
+          saveQuoteLine(true);
+        } else {
+          saveQuoteLine(false);
+        }
+        await delay(150);
+      }
+
+      // Phase 8: Totals
+      await keepInView(document.getElementById('wtGrsTot'));
+      document.getElementById('wtGrsTot').value = '342.00';
+      document.getElementById('wtNetTot').value = '342.00';
+      document.getElementById('volGrsTot').value = '5.13';
+      document.getElementById('volNetTot').value = '5.13';
+      document.getElementById('handlingUnits').value = '3';
+      document.getElementById('billableWeight').value = '342.00';
+      await delay(100);
+
+      // Phase 9: Comment
+      await setSelect(document.getElementById('commentType'), 'SpecialInstruction');
+      await delay(50);
+      await typeText(document.getElementById('commentText'), d.comment, 8);
+      await delay(100);
+      saveComment();
+      await delay(100);
+
+      // Phase 10: Constraints
+      await typeText(document.getElementById('carrier'), d.carrier, 15);
+      await delay(50);
+      await setSelect(document.getElementById('mode'), d.mode);
+      await delay(50);
+      await setSelect(document.getElementById('serviceOption'), d.serviceOption);
+      await delay(50);
+      await setSelect(document.getElementById('ltlService'), d.ltlService);
+      await delay(100);
+
+      // Phase 11: Ship Value
+      await keepInView(document.getElementById('shipValue'));
+      document.getElementById('shipValue').value = d.shipValue;
+    }
+
+    // Keyboard trigger
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'p' || e.key === 'P') {
+        if (document.activeElement.tagName !== 'INPUT' &&
+            document.activeElement.tagName !== 'TEXTAREA' &&
+            document.activeElement.tagName !== 'SELECT') {
+          e.preventDefault();
+          runAutomation();
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>
